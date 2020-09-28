@@ -1,4 +1,14 @@
-/* 
+/*
+ * Copyright 2019, 2020 Rohde & Schwarz GmbH & Co KG
+ * 	philipp.stanner@rohde-schwarz.com
+ * 	hagen.pfeifer@rohde-schwarz.com
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ * ----------------------------------------------------------------------------
+ *
  * Phantom header for disabling Tracy via compiler optimization in case of
  * building for Release.
  */
