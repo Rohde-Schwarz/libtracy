@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	 * the tracer will copy the data and transmit it over TCP. */
 	tracy_submit(tracer, tp_status, state_payload, strlen(state_payload));
 	tracy_submit(tracer, tp_sensor, arr_payload, sizeof(arr_payload));
-	tracy_submit_print(tracer, tp_status, "Pi is %.4f\n", 3.14159);
+	tracy_submit_printf(tracer, tp_status, "Pi is %.4f\n", 3.14159);
 
 	/* Stopp tracing services. Always set 'tracer' to NULL to avoid later
 	 * accidental usage */
