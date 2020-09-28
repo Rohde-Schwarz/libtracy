@@ -1,0 +1,85 @@
+/*
+ * Copyright 2019, 2020 Rohde & Schwarz GmbH & Co KG
+ * 	philipp.stanner@rohde-schwarz.com
+ * 	hagen.pfeifer@rohde-schwarz.com
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ * This document describes the TLV protocol used by libtracy.
+ * Note that the 'flags' field is currently unused and should always be 0.
+ */
+
+================================================================================
+
+TRACEPOINT_LIST_REQUEST
+
+	4 Byte    2 Byte   2 Byte             4 Byte
++---------------+--------+---------+---------------+
+| 0x0000 0xbeef | 0x0000 |  0x0001 | 0x0000 0x0000 |
++---------------+--------+---------+---------------+
+ magic number     flags   cmd-number   total length
+                
+================================================================================
+
+TRACEPOINT_LIST_REPLY
+
+      4 Byte        2 Byte   2 Byte        4 Byte      2 Byte       N Byte        2 Byte      N Byte         2 Byte
+ +----------------+--------+---------+---------------+--------+-----------------+--------+-----------------+--------+--------
+ | 0x0000 0xbeef  | 0x0000 |  0x0002 | 0xNNNN 0xNNNN | 0xNNNN | Tracepoint Name | 0xNNNN | Tracepoint Name | 0xNNNN | ....
+ +----------------+--------+---------+---------------+--------+-----------------+--------+-----------------+--------+--------
+   magig number     flags   cmd-number total length    Name-                       Name-                     Name-
+                                                    length                      length                    length
+
+================================================================================
+
+
+TRACEPOINT_ENABLE_REQUEST
+
+     4 Byte       2 Byte   2 Byte       4 Byte       2 Byte       N Byte        2 Byte       N Byte
++---------------+--------+---------+---------------+--------+-----------------+--------+-----------------+-------
+| 0x0000 0xbeef | 0x0000 |  0x0003 | 0xNNNN 0xNNNN | 0xNNNN | Tracepoint Name | 0xNNNN | Tracepoint Name | ...
++---------------+--------+---------+---------------+--------+-----------------+--------+-----------------+-------
+  magic number    flags   cmd-number total length   tracepoint-                tracepoint-
+                                                 name-                      name-
+                                                 length                     length
+                                                 
+================================================================================
+
+TRACEPOINT_DISABLE_REQUEST
+
+     4 Byte       2 Byte   2 Byte       4 Byte       2 Byte       N Byte        2 Byte       N Byte
++---------------+--------+---------+---------------+--------+-----------------+--------+-----------------+-------
+| 0x0000 0xbeef | 0x0000 |  0x0004 | 0xNNNN 0xNNNN | 0xNNNN | Tracepoint Name | 0xNNNN | Tracepoint Name | ...
++---------------+--------+---------+---------------+--------+-----------------+--------+-----------------+-------
+  magic number    flags   cmd-number total length   tracepoint-                tracepoint-
+                                                 name-                      name-
+                                                 length                     length
+
+================================================================================
+
+TRACE_PUSH
+
+      4 Byte       2 Byte   2 Byte       4 Byte           N Byte Payload
+ +---------------+--------+---------+---------------+----------------------------
+ | 0x0000 0xbeef | 0x0000 |  0x0005 | 0xNNNN 0xNNNN |
+ +---------------+--------+---------+---------------+----------------------------
+magic number       flags   cmd-number  total length         Payload
+
+
+
+ Payload                                                                   +                                                +
+                                                                           |                                                |
+   2 Byte        N Byte             8 Byte         2 Byte      N Byte      | 2 Byte   N Byte     8 Byte     2 Byte   N Byte |
+ +--------+-----------------+--------------------+--------+-------------------------+---------+-----------+--------+----------------
+ | 0xNNNN | Tracepoint Name | Timestamp nSeconds | 0xNNNN | 0xDDDDDDDDDD...| 0xNNNN | TP Name | Timestamp | 0xNNNN | 0xDDDD |.....
+ +--------+-----------------+--------------------+--------+-------------------------+---------+-----------+--------+----------------
+                                                                           |                                                |
+Tracepoint-                                        Data-                   |TP name                         Data            |
+Name-                                              length                  |length                          length          |
+length                                                                     |                                                |
+                                                                           |                                                |
+                                                                           |                                                |
+                    Package 0                                              |              Package 1                         |  Package 2 etc.
+                                                                           +                                                +

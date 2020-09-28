@@ -1,0 +1,13 @@
+[package]
+name = "tracy"
+version = "1.2.1"
+authors = ["Philipp Stanner <philipp.stanner@rohde-schwarz.com>"]
+edition = "2018"
+
+[dependencies]
+mio = "0.6.16"
+mio-extras = "2.0.5"
+
+[lib]
+name = "tracy"
+crate-type = ["cdylib", "staticlib"]
