@@ -400,7 +400,7 @@ int main(void)
 # Client Software
 
 A command line client to access tracy-applications can be found on
-[Sourcehut](https://git.sr.ht/~imperator/pst)
+[Sourcehut](https://git.sr.ht/~imperator/moltce)
 
 # Data Serialization
 
